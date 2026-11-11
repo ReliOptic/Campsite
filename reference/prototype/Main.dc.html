@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Campsite iPhone 피드와 커튼</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+body{margin:0}
+button{font:inherit;color:inherit;border:0;padding:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.press{transition:transform 140ms cubic-bezier(0.22,1,0.36,1),background-color 140ms cubic-bezier(0.22,1,0.36,1)}
+.press:active{transform:scale(0.92)}
+.soft:hover{background-color:var(--raised)}
+.rail::-webkit-scrollbar{display:none}
+@keyframes moon{from{transform:translateX(-104%)}to{transform:translateX(104%)}}
+@keyframes sky{0%{background-color:#e8b98a}30%{background-color:#9cc3e6}60%{background-color:#e59a6a}85%,100%{background-color:#141a2e}}
+@keyframes sun{0%{transform:translate(-140px,120px)}30%{transform:translate(0px,-40px)}60%{transform:translate(140px,120px)}100%{transform:translate(140px,220px)}}
+@keyframes marqA{from{transform:translateX(0)}to{transform:translateX(calc(-100% + 172px))}}
+@keyframes marqB{from{transform:translateX(0)}to{transform:translateX(calc(-100% + 172px))}}
+.run .beat{animation:beat 12s cubic-bezier(0.22,1,0.36,1) infinite both;animation-play-state:var(--ps)}
+.run .fill{animation:fill 12s cubic-bezier(0.22,1,0.36,1) infinite both;animation-play-state:var(--ps)}
+.run .fillslow{animation:fillslow 12s linear infinite both;animation-play-state:var(--ps)}
+.run .drop{animation:drop 12s cubic-bezier(0.3,1.4,0.5,1) infinite both;animation-play-state:var(--ps)}
+.run .dim{animation:dim 12s linear infinite both;animation-play-state:var(--ps)}
+.run .steam{animation:steam 2.4s linear infinite both;animation-play-state:var(--ps)}
+.run .tilt{animation:tilt 4s cubic-bezier(0.45,0,0.55,1) infinite;animation-play-state:var(--ps)}
+.run .third{animation:third 12s cubic-bezier(0.22,1,0.36,1) infinite both;animation-play-state:var(--ps)}
+.run .spin{animation:spin 12s linear infinite;animation-play-state:var(--ps)}
+@keyframes spin{from{transform:rotateX(-22deg) rotateY(0deg)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+@keyframes beat{0%{opacity:0;transform:translateY(20px)}3%,22%{opacity:1;transform:translateY(0)}25%,100%{opacity:0;transform:translateY(-20px)}}
+@keyframes fill{0%,2%{transform:scaleX(0)}11%,100%{transform:scaleX(1)}}
+@keyframes fillslow{0%,2%{transform:scaleX(0)}24%,100%{transform:scaleX(0.6)}}
+@keyframes drop{0%,2%{opacity:0;transform:translateY(-32px)}8%,100%{opacity:1;transform:translateY(0)}}
+@keyframes dim{0%,6%{background-color:#e9e6df}14%,100%{background-color:#1c2128}}
+@keyframes steam{0%{opacity:0;transform:translateY(8px) scaleY(0.6)}30%{opacity:0.6}100%{opacity:0;transform:translateY(-32px) scaleY(1.2)}}
+@keyframes tilt{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@keyframes third{0%{opacity:0;transform:translateY(8px)}4%,30%{opacity:1;transform:translateY(0)}34%,100%{opacity:0;transform:translateY(-8px)}}
+@keyframes rowIn{0%{opacity:0;transform:translateY(12px)}8%,90%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+@keyframes bob{from{transform:translateY(-6px)}to{transform:translateY(6px)}}
+@keyframes pop{0%{opacity:0;transform:scale(0.5)}10%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@keyframes tide{from{transform:scaleY(0.18)}to{transform:scaleY(1)}}
+</style>
+</helmet>
+<div style="--page: {{v.page}}; --bg: {{v.bg}}; --surf: {{v.surf}}; --raised: {{v.raised}}; --fg: {{v.fg}}; --fg2: {{v.fg2}}; --fg3: {{v.fg3}}; --hair: {{v.hair}}; --lift: {{v.lift}}; --acc: {{v.acc}}; --knob: {{v.knob}}; --off: {{v.off}}; position: relative; width: 393px; height: 852px; overflow: hidden; background: var(--page); color: var(--fg); font-family: 'IBM Plex Sans KR', system-ui, sans-serif; font-size: 15px; line-height: 22px; user-select: none; -webkit-user-select: none">
+
+  <!-- 커튼: 다이내믹 아일랜드 아래에서 시작한다 -->
+  <div style="position: absolute; left: 0; right: 0; top: 0; height: 480px; box-sizing: border-box; padding: 68px 20px 8px; background: var(--surf); border-radius: 0 0 32px 32px; box-shadow: 0 -120px 0 0 var(--surf), inset 0 -1px 0 var(--hair); display: flex; flex-direction: column; gap: 12px; transform: {{sheetTf}}; transition: {{curTr}}">
+    <div style="display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 12px">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--raised); display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg2); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"></path></svg>
+      </div>
+      <div style="font-size: 18px; line-height: 24px; font-weight: 500">내 캠프</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <sc-for list="{{switches}}" as="s" hint-placeholder-count="4">
+        <button class="soft" role="switch" aria-checked="{{s.on}}" onClick="{{s.flip}}" style="display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 12px; border-radius: 16px; text-align: left; transition: background-color 140ms cubic-bezier(0.22,1,0.36,1)">
+          <span>{{s.label}}</span>
+          <span style="position: relative; width: 52px; height: 32px; border-radius: 16px; background: {{s.track}}; transition: background-color 160ms cubic-bezier(0.22,1,0.36,1)">
+            <span style="position: absolute; left: 2px; top: 2px; width: 28px; height: 28px; border-radius: 14px; background: {{s.knob}}; box-shadow: 0 1px 2px rgba(0,0,0,0.2); transform: {{s.knobTf}}; transition: transform 380ms cubic-bezier(0.3,1.4,0.5,1), background-color 160ms cubic-bezier(0.22,1,0.36,1)"></span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="height: 1px; margin: 0 12px; background: var(--hair)"></div>
+    <button class="soft press" style="display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 12px; border-radius: 16px; text-align: left">
+      <span>담아 둔 링크</span>
+      <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; color: var(--fg2); font-variant-numeric: tabular-nums">{{keptCount}}</span>
+    </button>
+    <button class="soft press" style="display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 12px; border-radius: 16px; text-align: left">
+      <span>홈 화면에 추가</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg3); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M9 6l6 6-6 6"></path></svg>
+    </button>
+    <button aria-label="커튼 올리기" onClick="{{closeCurtain}}" style="margin-top: auto; align-self: center; width: 64px; height: 24px; display: flex; align-items: center; justify-content: center">
+      <span style="width: 36px; height: 4px; border-radius: 2px; background: var(--fg3)"></span>
+    </button>
+  </div>
+
+  <!-- 앱 전체: 커튼이 내려오면 한 장으로 물러난다 -->
+  <div style="position: absolute; inset: 0; background: var(--bg); overflow: hidden; transform-origin: 50% 0; transform: {{appTf}}; border-radius: {{appRadius}}; transition: {{curTr}}">
+
+    <!-- 상단: 0–59는 다이내믹 아일랜드 자리로 비운다. 이 영역 전체가 커튼 손잡이다 -->
+    <header onPointerDown="{{hd}}" onPointerMove="{{hm}}" onPointerUp="{{hu}}" onPointerCancel="{{hu}}" style="position: absolute; left: 0; right: 0; top: 0; height: 112px; box-sizing: border-box; padding: 60px 16px 8px; display: flex; align-items: center; justify-content: space-between; touch-action: none">
+      <span style="width: 44px; height: 44px"></span>
+      <div role="tablist" style="display: flex; gap: 4px; padding: 4px; height: 44px; box-sizing: border-box; border-radius: 22px; background: var(--surf); box-shadow: var(--lift)">
+        <sc-for list="{{modes}}" as="m" hint-placeholder-count="2">
+          <button role="tab" aria-selected="{{m.on}}" onClick="{{m.pick}}" class="press" style="height: 36px; padding: 0 16px; border-radius: 18px; font-weight: 500; background: {{m.bg}}; color: {{m.fg}}">{{m.label}}</button>
+        </sc-for>
+      </div>
+      <button aria-label="내 캠프 열기" onClick="{{openCurtain}}" class="press" style="position: relative; width: 44px; height: 44px; border-radius: 50%; background: var(--surf); box-shadow: var(--lift); display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"></path></svg>
+        <span aria-hidden="true" style="position: absolute; right: 0; top: 0; width: 12px; height: 12px; box-sizing: border-box; border-radius: 6px; background: var(--acc); border: 2px solid var(--bg); opacity: {{dotOp}}; transition: opacity 160ms linear"></span>
+      </button>
+    </header>
+
+    <sc-if value="{{feedShown}}" hint-placeholder-val="{{true}}">
+      <!-- 무대: 위아래는 캠프 안의 다음 편, 좌우는 다음 캠프 -->
+      <div role="group" aria-label="작품" onPointerDown="{{pd}}" onPointerMove="{{pm}}" onPointerUp="{{pu}}" onPointerCancel="{{pu}}" style="position: absolute; left: 12px; right: 12px; top: 116px; height: 544px; border-radius: 32px; overflow: hidden; touch-action: none; cursor: grab">
+        <sc-for list="{{cards}}" as="c" hint-placeholder-count="3">
+          <div class="{{c.cls}}" style="--ps: {{c.play}}; position: absolute; inset: 0; border-radius: 32px; overflow: hidden; color: #ededed; background: {{c.ground}}; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); transform: {{c.tf}}; transition: {{c.tr}}">
+            <sc-if value="{{c.isMoon}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 28px; line-height: 32px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <div style="position: absolute; left: 50%; top: 172px; width: 200px; height: 200px; margin-left: -100px; border-radius: 50%; overflow: hidden; background: {{c.a}}">
+                <div style="width: 200px; height: 200px; border-radius: 50%; background: {{c.ground}}; transform: translateX(-104%); animation: {{c.anim}} 12s linear infinite; animation-play-state: {{c.play}}"></div>
+              </div>
+              <span style="position: absolute; left: 24px; bottom: 24px; font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.cap}}</span>
+            </sc-if>
+            <sc-if value="{{c.isNews}}" hint-placeholder-val="{{true}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 20px; line-height: 28px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <div style="position: absolute; left: 24px; right: 24px; top: 120px; height: 312px">
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 16px; opacity: 1">
+                  <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 112px; line-height: 112px; font-weight: 500; letter-spacing: -0.03em; color: {{c.a}}">{{c.ver}}</span>
+                  <span style="font-size: 24px; line-height: 32px; font-weight: 500">{{c.lead}}</span>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 32px; opacity: 0; animation-delay: 3s">
+                  <div style="display: flex; flex-direction: column; gap: 16px">
+                    <span style="height: 12px; border-radius: 6px; background: rgba(255,255,255,0.08); overflow: hidden"><span class="fillslow" style="display: block; height: 12px; border-radius: 6px; background: {{c.ink}}; transform-origin: 0 50%; transform: scaleX(0.6); animation-delay: 3s"></span></span>
+                    <span style="height: 12px; border-radius: 6px; background: rgba(255,255,255,0.08); overflow: hidden"><span class="fill" style="display: block; height: 12px; border-radius: 6px; background: {{c.a}}; transform-origin: 0 50%; animation-delay: 3s"></span></span>
+                  </div>
+                  <span style="font-size: 24px; line-height: 32px; font-weight: 500">{{c.r0}}</span>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 32px; opacity: 0; animation-delay: 6s">
+                  <div style="display: flex; flex-direction: column; gap: 8px; width: 200px">
+                    <div style="display: flex; gap: 16px">
+                      <span class="drop" style="width: 56px; height: 56px; border-radius: 16px; background: {{c.a}}; animation-delay: 6.2s"></span>
+                      <span class="drop" style="width: 56px; height: 56px; border-radius: 16px; background: {{c.ink}}; animation-delay: 6.5s"></span>
+                      <span class="drop" style="width: 56px; height: 56px; border-radius: 16px; background: #ededed; animation-delay: 6.8s"></span>
+                    </div>
+                    <span style="height: 16px; border-radius: 8px; background: rgba(255,255,255,0.16)"></span>
+                  </div>
+                  <span style="font-size: 24px; line-height: 32px; font-weight: 500">{{c.r1}}</span>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 32px; opacity: 0; animation-delay: 9s">
+                  <div class="dim" style="width: 200px; height: 120px; box-sizing: border-box; padding: 20px; border-radius: 16px; background-color: #1c2128; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); display: flex; flex-direction: column; gap: 12px; animation-delay: 9s">
+                    <span style="width: 96px; height: 8px; border-radius: 4px; background: rgba(128,128,128,0.7)"></span>
+                    <span style="width: 160px; height: 8px; border-radius: 4px; background: rgba(128,128,128,0.45)"></span>
+                    <span style="width: 128px; height: 8px; border-radius: 4px; background: rgba(128,128,128,0.45)"></span>
+                  </div>
+                  <span style="font-size: 24px; line-height: 32px; font-weight: 500">{{c.r2}}</span>
+                </div>
+              </div>
+              <button onPointerDown="{{c.linkDown}}" style="position: absolute; left: 24px; right: 24px; bottom: 24px; height: 56px; padding: 0 20px; border-radius: 16px; background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); color: #ededed; display: flex; align-items: center; justify-content: space-between; text-align: left">
+                <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 15px">{{c.label}}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: {{c.a}}; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+              </button>
+            </sc-if>
+            <sc-if value="{{c.isAd}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 28px; line-height: 32px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <div aria-hidden="true" style="position: absolute; left: 50%; top: 132px; width: 96px; height: 48px; margin-left: -64px; display: flex; justify-content: space-between; align-items: flex-end">
+                <span class="steam" style="width: 8px; height: 32px; border-radius: 4px; background: {{c.ink}}; opacity: 0"></span>
+                <span class="steam" style="width: 8px; height: 40px; border-radius: 4px; background: {{c.ink}}; opacity: 0; animation-delay: 0.8s"></span>
+                <span class="steam" style="width: 8px; height: 32px; border-radius: 4px; background: {{c.ink}}; opacity: 0; animation-delay: 1.6s"></span>
+              </div>
+              <button aria-label="{{c.short}}" onPointerDown="{{c.linkDown}}" class="tilt" style="position: absolute; left: 50%; top: 184px; width: 200px; height: 180px; margin-left: -100px; transform-origin: 50% 100%">
+                <span style="position: absolute; left: 132px; top: 40px; width: 60px; height: 76px; box-sizing: border-box; border: 14px solid {{c.a}}; border-radius: 0 32px 32px 0"></span>
+                <span style="position: absolute; left: 16px; top: 16px; width: 132px; height: 148px; border-radius: 12px 12px 40px 40px; background: {{c.a}}"></span>
+                <span style="position: absolute; left: 28px; top: 28px; width: 16px; height: 96px; border-radius: 8px; background: rgba(255,255,255,0.45)"></span>
+              </button>
+              <div style="position: absolute; left: 24px; right: 120px; bottom: 24px; height: 56px">
+                <span class="third" style="position: absolute; left: 0; bottom: 0; font-size: 20px; line-height: 28px; font-weight: 500; opacity: 1">{{c.c0}}</span>
+                <span class="third" style="position: absolute; left: 0; bottom: 0; font-size: 20px; line-height: 28px; font-weight: 500; opacity: 0; animation-delay: 4s">{{c.c1}}</span>
+                <span class="third" style="position: absolute; left: 0; bottom: 0; font-size: 20px; line-height: 28px; font-weight: 500; opacity: 0; animation-delay: 8s">{{c.c2}}</span>
+              </div>
+              <span style="position: absolute; right: 24px; bottom: 24px; font-size: 20px; line-height: 28px; font-weight: 500; color: {{c.ink}}; font-variant-numeric: tabular-nums">{{c.price}}</span>
+            </sc-if>
+            <sc-if value="{{c.isFix}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; right: 24px; top: 24px; display: flex; align-items: flex-start; justify-content: space-between">
+                <div style="display: flex; flex-direction: column; gap: 4px">
+                  <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                  <span style="font-size: 20px; line-height: 28px; font-weight: 500">{{c.short}}</span>
+                </div>
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">한국 시간</span>
+              </div>
+              <div style="position: absolute; left: 24px; right: 24px; top: 120px; height: 312px; font-variant-numeric: tabular-nums">
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 20px; opacity: 1">
+                  <span style="font-size: 15px; line-height: 22px; color: {{c.ink}}">{{c.res.when}}</span>
+                  <div style="display: flex; align-items: baseline; justify-content: space-between"><span style="font-size: 24px; line-height: 32px">{{c.res.home}}</span><span style="font-size: 64px; line-height: 64px; font-weight: 500">{{c.res.hs}}</span></div>
+                  <div style="display: flex; align-items: baseline; justify-content: space-between"><span style="font-size: 24px; line-height: 32px; color: {{c.a}}">{{c.res.away}}</span><span style="font-size: 64px; line-height: 64px; font-weight: 500; color: {{c.a}}">{{c.res.as}}</span></div>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; opacity: 0; animation-delay: 3s">
+                  <span style="font-size: 15px; line-height: 22px; color: {{c.ink}}">다음 경기</span>
+                  <span style="font-size: 44px; line-height: 48px; font-weight: 500; letter-spacing: -0.02em; color: {{c.a}}">{{c.next.d}}</span>
+                  <span style="font-size: 44px; line-height: 48px; font-weight: 500; letter-spacing: -0.02em">{{c.next.t}}</span>
+                  <span style="font-size: 24px; line-height: 32px">{{c.next.opp}}</span>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 32px; opacity: 0; animation-delay: 6s">
+                  <sc-for list="{{c.later}}" as="b" hint-placeholder-count="2">
+                    <div style="display: flex; flex-direction: column; gap: 4px">
+                      <span style="font-size: 15px; line-height: 22px; color: {{c.ink}}">{{b.d}} {{b.t}}</span>
+                      <span style="font-size: 32px; line-height: 40px; font-weight: 500">{{b.opp}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div class="beat" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; opacity: 0; animation-delay: 9s">
+                  <sc-for list="{{c.all}}" as="b" hint-placeholder-count="3">
+                    <div style="display: flex; align-items: center; justify-content: space-between; height: 64px; box-shadow: inset 0 -1px 0 rgba(255,255,255,0.08)">
+                      <span style="font-size: 20px; line-height: 28px; font-weight: 500">{{b.opp}}</span>
+                      <span style="display: flex; flex-direction: column; align-items: flex-end; font-size: 15px; line-height: 22px; color: {{c.ink}}"><span>{{b.d}}</span><span>{{b.t}}</span></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <button onPointerDown="{{c.linkDown}}" style="position: absolute; left: 24px; right: 24px; bottom: 24px; height: 56px; padding: 0 20px; border-radius: 16px; background: rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12); color: #ededed; display: flex; align-items: center; justify-content: space-between; text-align: left">
+                <span style="font-size: 15px; font-weight: 500">{{c.label}}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: {{c.a}}; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+              </button>
+            </sc-if>
+            <sc-if value="{{c.isTease}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 20px; line-height: 28px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <div style="position: absolute; left: 24px; right: 24px; top: 120px; height: 312px">
+                <sc-for list="{{c.teasers}}" as="b" hint-placeholder-count="3">
+                  <div class="third" style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 20px; opacity: {{b.op}}; animation-delay: {{b.d}}">
+                    <span style="font-size: 48px; line-height: 56px; font-weight: 500; letter-spacing: -0.02em; white-space: pre-line">{{b.hook}}</span>
+                    <span style="width: 40px; height: 4px; border-radius: 2px; background: {{c.a}}"></span>
+                    <span style="font-size: 15px; line-height: 22px; color: {{c.ink}}">{{b.fact}}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <button onPointerDown="{{c.linkDown}}" style="position: absolute; left: 24px; right: 24px; bottom: 24px; height: 56px; padding: 0 20px; border-radius: 16px; background: {{c.a}}; color: #141415; display: flex; align-items: center; justify-content: space-between; text-align: left">
+                <span style="font-size: 15px; font-weight: 500">{{c.label}}</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: #141415; stroke: none"><path d="M8 5l12 7-12 7z"></path></svg>
+              </button>
+            </sc-if>
+            <sc-if value="{{c.isObj}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 28px; line-height: 32px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <button aria-label="{{c.short}}" onPointerDown="{{c.linkDown}}" style="position: absolute; left: 50%; top: 168px; width: 240px; height: 240px; margin-left: -120px; perspective: 800px">
+                <span class="spin" style="position: absolute; left: 50px; top: 50px; width: 140px; height: 140px; transform-style: preserve-3d; transform: rotateX(-22deg) rotateY(32deg)">
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a}}; transform: translateZ(70px)"></span>
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a}}; transform: rotateY(180deg) translateZ(70px)"></span>
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a2}}; transform: rotateY(90deg) translateZ(70px)"></span>
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a2}}; transform: rotateY(-90deg) translateZ(70px)"></span>
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a3}}; transform: rotateX(90deg) translateZ(70px)"></span>
+                  <span style="position: absolute; inset: 0; border-radius: 12px; background: {{c.a3}}; transform: rotateX(-90deg) translateZ(70px)"></span>
+                </span>
+              </button>
+              <span style="position: absolute; left: 24px; bottom: 24px; font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.cap}}</span>
+            </sc-if>
+            <sc-if value="{{c.isPlay}}" hint-placeholder-val="{{false}}">
+              <div style="position: absolute; left: 24px; top: 24px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.camp}}</span>
+                <span style="font-size: 28px; line-height: 32px; font-weight: 500">{{c.short}}</span>
+              </div>
+              <button aria-label="{{c.short}}" onPointerDown="{{c.linkDown}}" style="position: absolute; left: 50%; top: 152px; width: 240px; height: 240px; margin-left: -120px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+                <sc-for list="{{c.cells}}" as="b" hint-placeholder-count="9">
+                  <span style="border-radius: 16px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center">
+                    <span style="width: 32px; height: 32px; box-sizing: border-box; border-radius: {{b.r}}; border: {{b.bd}}; background: {{b.bg}}; animation: {{c.animPop}} 6s cubic-bezier(0.3,1.4,0.5,1) infinite both; animation-delay: {{b.d}}; animation-play-state: {{c.play}}"></span>
+                  </span>
+                </sc-for>
+              </button>
+              <span style="position: absolute; left: 24px; bottom: 24px; font-size: 13px; line-height: 20px; color: {{c.ink}}">{{c.cap}}</span>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px; border-radius: 50%; background: #19191b; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: {{discOp}}; transform: {{discTf}}; transition: opacity 160ms cubic-bezier(0.22,1,0.36,1), transform 380ms cubic-bezier(0.3,1.4,0.5,1)">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="fill: #ededed; stroke: none"><path d="M8 5l12 7-12 7z"></path></svg>
+        </div>
+        <!-- 링크를 누르는 동안: 어디로 가는지가 손끝 위에 뜬다 -->
+        <div aria-hidden="true" style="position: absolute; left: 0; top: 0; pointer-events: none; opacity: {{chipOp}}; transform: {{chipTf}}; transition: opacity 120ms linear">
+          <div style="display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 18px; background: {{chipBg}}; color: #141415; font-size: 13px; font-weight: 500; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transform: {{chipIn}}; transition: transform 320ms cubic-bezier(0.3,1.4,0.5,1), background-color 160ms cubic-bezier(0.22,1,0.36,1)">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="fill: {{chipFill}}; stroke: #141415; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="{{chipPath}}"></path></svg>
+            <span>{{chipText}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 진행선: 칸 수가 이 캠프의 편 수 -->
+      <div style="position: absolute; left: 32px; right: 32px; top: 668px; height: 4px; display: flex; justify-content: center; gap: 6px">
+        <sc-for list="{{segs}}" as="g" hint-placeholder-count="3">
+          <span style="flex: none; width: {{g.w}}; height: 4px; border-radius: 2px; background: {{g.bg}}; overflow: hidden; transition: width 420ms cubic-bezier(0.3,1.4,0.5,1), background-color 160ms cubic-bezier(0.22,1,0.36,1)"><span style="display: block; width: 100%; height: 4px; border-radius: 2px; background: var(--fg); transform-origin: 0 50%; transform: {{g.tf}}; opacity: {{g.op}}"></span></span>
+        </sc-for>
+      </div>
+
+      <!-- 제목과 동작 -->
+      <div style="position: absolute; left: 12px; right: 12px; top: 680px; height: 52px; display: flex; flex-direction: {{rowDir}}; align-items: center; gap: 16px">
+        <div style="flex: 1; min-width: 0; padding: 0 16px; display: flex; flex-direction: column; overflow: hidden">
+          <span style="font-size: 13px; line-height: 20px; color: var(--fg2)">{{cur.campLine}}</span>
+          <span style="display: inline-block; align-self: flex-start; font-weight: 500; white-space: nowrap; animation: {{marq}}">{{cur.title}}</span>
+        </div>
+        <div style="flex: none; display: flex; gap: 4px; padding: 4px; height: 52px; box-sizing: border-box; border-radius: 26px; background: var(--surf); box-shadow: var(--lift)">
+          <button aria-label="좋아요" aria-pressed="{{cur.liked}}" onClick="{{like}}" class="soft press" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: {{heartFill}}; stroke: {{heartStroke}}; stroke-width: 1.5; stroke-linejoin: round; transform: {{heartTf}}; transition: transform 380ms cubic-bezier(0.3,1.4,0.5,1)"><path d="M12 20.5s-7.5-4.6-7.5-10.4A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.7c0 5.8-7.5 10.4-7.5 10.4z"></path></svg>
+          </button>
+          <button aria-label="저장" aria-pressed="{{cur.saved}}" onClick="{{save}}" class="soft press" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: {{saveFill}}; stroke: var(--fg); stroke-width: 1.5; stroke-linejoin: round; transform: {{saveTf}}; transition: transform 380ms cubic-bezier(0.3,1.4,0.5,1)"><path d="M6.5 4h11v16.5L12 16.3l-5.5 4.2z"></path></svg>
+          </button>
+          <button aria-label="공유하기" class="soft press" style="width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M12 15V3.5M7.5 8L12 3.5 16.5 8M5.5 12v8.5h13V12"></path></svg>
+          </button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- 발견: 캠프를 눌러 레일에 올리고 내린다 -->
+    <sc-if value="{{discoverShown}}" hint-placeholder-val="{{false}}">
+      <div style="position: absolute; left: 12px; right: 12px; top: 116px; height: 616px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 144px; gap: 12px">
+        <sc-for list="{{camps}}" as="k" hint-placeholder-count="5">
+          <button aria-pressed="{{k.sub}}" onClick="{{k.flip}}" class="press" style="position: relative; display: flex; flex-direction: column; text-align: left; border-radius: 24px; background: var(--surf); box-shadow: var(--lift); overflow: hidden">
+            <span style="position: relative; height: 76px; background: {{k.ground}}; display: flex; align-items: center; justify-content: center">
+              <sc-if value="{{k.isMoon}}" hint-placeholder-val="{{true}}"><span style="width: 52px; height: 52px; border-radius: 50%; background: {{k.a}}"></span></sc-if>
+              <sc-if value="{{k.gLines}}" hint-placeholder-val="{{false}}"><span style="display: flex; flex-direction: column; gap: 8px"><span style="width: 52px; height: 8px; border-radius: 4px; background: {{k.a}}"></span><span style="width: 36px; height: 8px; border-radius: 4px; background: {{k.a}}"></span><span style="width: 44px; height: 8px; border-radius: 4px; background: {{k.a}}"></span></span></sc-if>
+              <sc-if value="{{k.gBlock}}" hint-placeholder-val="{{false}}"><span style="width: 48px; height: 48px; border-radius: 16px; background: {{k.a}}"></span></sc-if>
+              <sc-if value="{{k.gGrid}}" hint-placeholder-val="{{false}}"><span style="display: grid; grid-template-columns: repeat(2, 20px); gap: 8px"><span style="height: 20px; border-radius: 6px; background: {{k.a}}"></span><span style="height: 20px; border-radius: 6px; background: {{k.a}}"></span><span style="height: 20px; border-radius: 6px; background: {{k.a}}"></span><span style="height: 20px; border-radius: 6px; background: {{k.a}}"></span></span></sc-if>
+              <span style="position: absolute; right: 12px; top: 12px; width: 32px; height: 32px; border-radius: 16px; background: {{k.markBg}}; display: flex; align-items: center; justify-content: center; transform: {{k.markTf}}; transition: transform 380ms cubic-bezier(0.3,1.4,0.5,1), background-color 160ms cubic-bezier(0.22,1,0.36,1)">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: {{k.markFg}}; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="{{k.markPath}}"></path></svg>
+              </span>
+            </span>
+            <span style="padding: 12px 16px; display: flex; flex-direction: column; text-align: left">
+              <span style="font-weight: 500">{{k.camp}}</span>
+              <span style="font-size: 13px; line-height: 20px; color: var(--fg2)">{{k.title}}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- 캠프 레일: 좌우로 쓸면 캠프가 넘어가고 무대가 함께 따라온다 -->
+    <nav aria-label="캠프" style="position: absolute; left: 12px; right: 12px; top: 740px; height: 68px; box-sizing: border-box; padding: 8px; border-radius: 34px; background: var(--surf); box-shadow: var(--lift); display: flex; flex-direction: {{rowDir}}; align-items: center; gap: 8px">
+      <div onPointerDown="{{rd}}" onPointerMove="{{rm}}" onPointerUp="{{ru}}" onPointerCancel="{{ru}}" style="position: relative; flex: 1; min-width: 0; height: 52px; border-radius: 26px; overflow: hidden; touch-action: none; cursor: grab">
+        <div style="position: absolute; left: 50%; top: 4px; height: 44px; margin-left: -22px; display: flex; gap: 12px; transform: {{railTf}}; transition: {{railTr}}">
+          <sc-for list="{{disks}}" as="k" hint-placeholder-count="5">
+            <span role="img" aria-label="{{k.camp}}" style="position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%; background: {{k.ground}}; box-shadow: {{k.ring}}; opacity: {{k.op}}; transition: opacity 200ms linear, box-shadow 160ms cubic-bezier(0.22,1,0.36,1); display: flex; align-items: center; justify-content: center">
+              <sc-if value="{{k.isMoon}}" hint-placeholder-val="{{true}}"><span style="width: 20px; height: 20px; border-radius: 50%; background: {{k.a}}"></span></sc-if>
+              <sc-if value="{{k.gLines}}" hint-placeholder-val="{{false}}"><span style="display: flex; flex-direction: column; gap: 4px"><span style="width: 20px; height: 4px; border-radius: 2px; background: {{k.a}}"></span><span style="width: 12px; height: 4px; border-radius: 2px; background: {{k.a}}"></span><span style="width: 16px; height: 4px; border-radius: 2px; background: {{k.a}}"></span></span></sc-if>
+              <sc-if value="{{k.gBlock}}" hint-placeholder-val="{{false}}"><span style="width: 20px; height: 20px; border-radius: 6px; background: {{k.a}}"></span></sc-if>
+              <sc-if value="{{k.gGrid}}" hint-placeholder-val="{{false}}"><span style="display: grid; grid-template-columns: repeat(2, 8px); gap: 4px"><span style="height: 8px; border-radius: 2px; background: {{k.a}}"></span><span style="height: 8px; border-radius: 2px; background: {{k.a}}"></span><span style="height: 8px; border-radius: 2px; background: {{k.a}}"></span><span style="height: 8px; border-radius: 2px; background: {{k.a}}"></span></span></sc-if>
+              <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true" style="position: absolute; left: -4px; top: -4px; transform: rotate(-90deg); pointer-events: none"><circle cx="26" cy="26" r="25" style="fill: none; stroke: var(--acc); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 157.1; stroke-dashoffset: {{k.ringOff}}; transition: stroke-dashoffset 120ms linear"></circle></svg>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+      <button aria-label="캠프 추가" onClick="{{openAdd}}" class="press" style="flex: none; width: 52px; height: 52px; border-radius: 50%; background: var(--raised); display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+      </button>
+    </nav>
+
+    <!-- 캠프 추가: 아래에서 올라오는 한 장 -->
+    <sc-if value="{{addScrim}}" hint-placeholder-val="{{false}}">
+      <button aria-label="닫기" onClick="{{closeAdd}}" style="position: absolute; inset: 0; width: 100%; height: 100%; background: #000000; opacity: 0.4"></button>
+    </sc-if>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 232px; box-sizing: border-box; padding: 8px 20px 42px; background: var(--surf); border-radius: 32px 32px 0 0; box-shadow: 0 120px 0 0 var(--surf), inset 0 1px 0 var(--hair); display: flex; flex-direction: column; gap: 4px; transform: {{addTf}}; transition: transform 460ms cubic-bezier(0.3,1.4,0.5,1)">
+      <button aria-label="닫기" onClick="{{closeAdd}}" style="align-self: center; width: 64px; height: 24px; display: flex; align-items: center; justify-content: center">
+        <span style="width: 36px; height: 4px; border-radius: 2px; background: var(--fg3)"></span>
+      </button>
+      <button onClick="{{makeClaude}}" class="soft press" style="display: flex; align-items: center; gap: 16px; height: 72px; padding: 0 12px; border-radius: 20px; text-align: left">
+        <span style="width: 48px; height: 48px; border-radius: 24px; background: var(--raised); display: flex; align-items: center; justify-content: center">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.5 3.5v-3.5a2 2 0 0 1-2-2z"></path></svg>
+        </span>
+        <span style="flex: 1; font-weight: 500">Claude에서 만들기</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg3); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </button>
+      <button onClick="{{makeGpt}}" class="soft press" style="display: flex; align-items: center; gap: 16px; height: 72px; padding: 0 12px; border-radius: 20px; text-align: left">
+        <span style="width: 48px; height: 48px; border-radius: 24px; background: var(--raised); display: flex; align-items: center; justify-content: center">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M4.5 6.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H11l-4.5 3.5v-3.5a2 2 0 0 1-2-2z"></path></svg>
+        </span>
+        <span style="flex: 1; font-weight: 500">ChatGPT에서 만들기</span>
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg3); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </button>
+    </div>
+
+    <sc-if value="{{curShown}}" hint-placeholder-val="{{false}}">
+      <button aria-label="커튼 올리기" onPointerDown="{{od}}" onPointerMove="{{om}}" onPointerUp="{{ou}}" onPointerCancel="{{ou}}" style="position: absolute; inset: 0; width: 100%; height: 100%; background: #000000; opacity: {{scrimOp}}; touch-action: none; cursor: grab"></button>
+    </sc-if>
+  </div>
+
+  <!-- 링크가 연 것: 아래에서 한 장이 올라오고 피드는 뒤로 물러난다 -->
+  <sc-if value="{{openOn}}" hint-placeholder-val="{{false}}">
+    <button aria-label="닫기" onClick="{{closeSheet}}" style="position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 68px"></button>
+  </sc-if>
+  <div style="position: absolute; left: 0; right: 0; top: 68px; bottom: 0; box-sizing: border-box; padding: 8px 20px 42px; background: var(--surf); border-radius: 32px 32px 0 0; box-shadow: 0 120px 0 0 var(--surf), var(--lift); display: flex; flex-direction: column; gap: 16px; transform: {{openTf}}; transition: transform 520ms cubic-bezier(0.3,1.25,0.5,1)">
+    <button aria-label="닫기" onClick="{{closeSheet}}" style="align-self: center; width: 64px; height: 24px; display: flex; align-items: center; justify-content: center">
+      <span style="width: 36px; height: 4px; border-radius: 2px; background: var(--fg3)"></span>
+    </button>
+    <div style="display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 4px">
+      <span style="width: 44px; height: 44px; border-radius: 22px; background: var(--raised); display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17"></path></svg>
+      </span>
+      <span style="font-size: 18px; line-height: 24px; font-weight: 500">{{sheet.domain}}</span>
+    </div>
+    <sc-if value="{{sheet.isWeb}}" hint-placeholder-val="{{true}}">
+      <div style="flex: 1; border-radius: 24px; background: var(--raised)"></div>
+    </sc-if>
+    <sc-if value="{{sheet.isPlay}}" hint-placeholder-val="{{false}}">
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px">
+        <div style="display: grid; grid-template-columns: repeat(3, 96px); gap: 8px">
+          <sc-for list="{{board}}" as="b" hint-placeholder-count="9">
+            <button aria-label="{{b.name}}" onClick="{{b.tap}}" class="press" style="width: 96px; height: 96px; border-radius: 24px; background: {{b.cell}}; display: flex; align-items: center; justify-content: center">
+              <span style="width: 40px; height: 40px; box-sizing: border-box; border-radius: {{b.r}}; border: {{b.bd}}; background: {{b.bg}}; transform: {{b.tf}}; transition: transform 380ms cubic-bezier(0.3,1.4,0.5,1)"></span>
+            </button>
+          </sc-for>
+        </div>
+        <button aria-label="다시 두기" onClick="{{resetGame}}" class="press" style="width: 52px; height: 52px; border-radius: 26px; background: var(--raised); display: flex; align-items: center; justify-content: center">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" style="fill: none; stroke: var(--fg); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3h3"></path></svg>
+        </button>
+      </div>
+    </sc-if>
+    <sc-if value="{{sheet.isObj}}" hint-placeholder-val="{{false}}">
+      <div onPointerDown="{{xd}}" onPointerMove="{{xm}}" onPointerUp="{{xu}}" onPointerCancel="{{xu}}" style="flex: 1; border-radius: 24px; background: var(--raised); display: flex; align-items: center; justify-content: center; perspective: 900px; touch-action: none; cursor: grab">
+        <span style="position: relative; width: 180px; height: 180px; transform-style: preserve-3d; transform: {{cubeTf}}">
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a}}; transform: translateZ(90px)"></span>
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a}}; transform: rotateY(180deg) translateZ(90px)"></span>
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a2}}; transform: rotateY(90deg) translateZ(90px)"></span>
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a2}}; transform: rotateY(-90deg) translateZ(90px)"></span>
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a3}}; transform: rotateX(90deg) translateZ(90px)"></span>
+          <span style="position: absolute; inset: 0; border-radius: 16px; background: {{cube.a3}}; transform: rotateX(-90deg) translateZ(90px)"></span>
+        </span>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","default":"dark","options":["dark","light"]},"seconds":{"editor":"range","default":12,"min":6,"max":20,"step":1,"unit":"s"},"$preview":{"width":393,"height":852}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { subs: [0, 5, 6, 1, 7, 2, 3], camp: 0, rx: -22, ry: 32, eps: {}, dx: 0, dy: 0, dragging: false, t: 0, serial: 0, playing: true, cur: 0, curDrag: false, liked: {}, saved: {}, auto: true, sound: true, dark: null, mode: 0, add: false, chip: null, kept: 0, openOn: false, sheet: { kind: 'web', domain: '' }, g: Array(9).fill(''), win: null };
+    this.SX = 381; this.SY = 556; this.SLOT = 56; this.CH = 492; this.p = null; this.armed = null;
+    const moon = (short, cap, title) => ({ kind: 'moon', short, cap, title: title || short });
+    const news = (short, ver, lead, title, label, rows) => ({ kind: 'news', short, ver, lead, title, label, rows, link: { kind: 'web', domain: 'github.com' } });
+    this.camps = [
+      { id: 0, tone: [220, 277.18, 329.63], camp: '개발 소식', ground: '#0e1116', ink: '#9aa4b2', a: '#7ee0a1', vistas: [
+        news('lantern', '2.0', '새 버전이 나왔습니다', 'lantern 2.0 공개', 'lantern/lantern', ['시작이 빨라졌습니다', '플러그인을 붙일 수 있습니다', '어두운 화면이 생겼습니다']),
+        news('lantern', '2.1', '한 달 만의 다음 버전', 'lantern 2.1, 검색과 밤 화면을 다듬었습니다', 'lantern/lantern', ['검색이 빨라졌습니다', '새 플러그인이 붙었습니다', '밤 화면이 눈에 편해졌습니다']) ] },
+      { id: 1, tone: [261.63, 329.63, 392], camp: '오늘의 물건', ad: true, ground: '#1a1410', ink: '#b8a995', a: '#e8d9c3', vistas: [
+        { kind: 'ad', short: '솔 머그', title: '솔 머그', caps: ['손에 맞게 기운 손잡이', '두 겹이라 오래 따뜻합니다', '식기세척기에 넣어도 됩니다'], price: '[가격]', link: { kind: 'web', domain: 'coupang.com' } } ] },
+      { id: 2, tone: [233.08, 293.66, 349.23], camp: '해 보기', ground: '#101418', ink: '#98a2b3', a: '#9db7ff', vistas: [
+        { kind: 'play', short: '세 줄 잇기', title: '세 줄 잇기', cap: '셋이 나란히 서면 끝나는 놀이', link: { kind: 'play', domain: '세 줄 잇기' } } ] },
+      { id: 3, tone: [130.81, 196, 246.94], camp: '밤하늘', ground: '#0b0d14', ink: '#a3a9b8', a: '#e9e6df', vistas: [moon('달의 위상', '보름에서 그믐으로, 다시 보름으로'), moon('월식', '지구의 그림자가 지나가는 밤')] },
+      { id: 4, camp: '하늘', ground: '#14100a', ink: '#b8ab98', a: '#f3c58f', vistas: [moon('일식', '해가 가려졌다가 돌아오는 동안')] },
+      { id: 5, tone: [196, 246.94, 293.66], camp: '맨시티', ground: '#0c1420', ink: '#93a4b8', a: '#8ecbf0', vistas: [
+        { kind: 'fix', short: '리그 일정', title: '맨시티 리그 일정, 11월 21일 풀럼전부터', label: 'premierleague.com',
+          res: { when: '지난 경기 · 11월 8일', home: '노팅엄 포리스트', hs: 3, away: '맨시티', as: 1 },
+          fx: [{ d: '11월 21일 토', t: '밤 9:30', opp: '풀럼 · 홈' }, { d: '11월 30일 월', t: '새벽 1:30', opp: '아스널 · 원정' }, { d: '12월 3일 목', t: '새벽 4:30', opp: '리즈 · 홈' }],
+          link: { kind: 'web', domain: 'premierleague.com' } } ] },
+      { id: 6, tone: [174.61, 220, 261.63], camp: 'BTS 소식', ground: '#121016', ink: '#a9a3b8', a: '#cdbcff', vistas: [
+        { kind: 'tease', short: '11월 11일', title: 'BTS 소식 · 11월 11일', label: '영상으로 이어 보기',
+          teasers: [
+            { hook: '런던의 밤이,\n다시', fact: "'ARIRANG' 런던 공연 실황 · 11월 10일 예약 시작" },
+            { hook: '그룹도,\n솔로도', fact: '하이브 "둘 다 준비 중" · 11월 3일 실적 발표' },
+            { hook: '11월에도\n맨 앞', fact: '보이그룹 브랜드평판 1위 · 11월 7일 발표' } ],
+          link: { kind: 'web', domain: 'youtube.com' } } ] },
+      { id: 7, tone: [146.83, 220, 293.66], camp: '사물', ground: '#15130f', ink: '#b3ab9a', a: '#e6c98f', a2: '#b89a5e', a3: '#f3e2bd', vistas: [
+        { kind: 'obj', short: '작은 상자', title: '작은 상자', cap: '돌려 보고, 뒤집어 보고', link: { kind: 'obj', domain: '작은 상자' } } ] }
+    ];
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      const s = this.state;
+      if (!s.playing || s.dragging || s.cur > 0.02 || s.mode !== 0 || s.add || s.openOn || s.chip) return;
+      const dur = this.props.seconds ?? 12; const t = s.t + 0.1;
+      if (t < dur) { this.setState({ t }); return; }
+      if (!s.auto) { this.setState({ t: 0 }); return; }
+      const c = this.camps[s.subs[s.camp]]; const ep = s.eps[c.id] || 0;
+      if (ep < c.vistas.length - 1) this.setEp(ep + 1); else this.setCamp(s.camp < s.subs.length - 1 ? s.camp + 1 : 0);
+    }, 100);
+  }
+  componentWillUnmount() { clearInterval(this.timer); cancelAnimationFrame(this.raf); }
+  rest(extra) { return { dx: 0, dy: 0, dragging: false, t: 0, playing: true, serial: this.state.serial + 1, ...extra }; }
+  setCamp(camp) { if (camp === this.state.camp) this.setState({ dx: 0, dy: 0, dragging: false }); else this.setState(this.rest({ camp })); }
+  setEp(ep) { const s = this.state; const id = s.subs[s.camp]; this.setState(this.rest({ eps: { ...s.eps, [id]: ep } })); }
+  winOf(g) { const L = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]; return L.find((l) => g[l[0]] && g[l[0]] === g[l[1]] && g[l[1]] === g[l[2]]) || null; }
+  move(i) {
+    const s = this.state; if (s.g[i] || s.win || this.busy) return;
+    const g = s.g.slice(); g[i] = 'o'; const win = this.winOf(g); this.setState({ g, win });
+    const empty = g.map((x, k) => (x ? -1 : k)).filter((k) => k >= 0);
+    if (win || !empty.length) return;
+    this.busy = true;
+    setTimeout(() => { const h = this.state.g.slice(); h[empty[Math.floor(Math.random() * empty.length)]] = 'x'; this.busy = false; this.setState({ g: h, win: this.winOf(h) }); }, 380);
+  }
+  renderVals() {
+    const s = this.state; const dur = this.props.seconds ?? 12;
+    const dark = s.dark === null ? (this.props.theme ?? 'dark') === 'dark' : s.dark;
+    const spring = 'cubic-bezier(0.3,1.4,0.5,1)'; const SX = this.SX, SY = this.SY, SLOT = this.SLOT;
+    const v = dark
+      ? { page: '#000000', bg: '#0f0f10', surf: '#19191b', raised: '#232325', fg: '#ededed', fg2: '#a1a1a6', fg3: '#85858b', hair: 'rgba(237,237,237,0.08)', lift: 'inset 0 1px 0 rgba(255,255,255,0.12)', acc: '#f0a47c', knob: '#141415', off: '#2e2e31' }
+      : { page: '#d4d4d8', bg: '#f4f4f5', surf: '#ffffff', raised: '#f4f4f5', fg: '#171717', fg2: '#525252', fg3: '#737373', hair: 'rgba(23,23,23,0.08)', lift: '0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(23,23,23,0.06)', acc: '#c2562a', knob: '#ffffff', off: '#d4d4d8' };
+    const list = s.subs.map((id) => this.camps[id]); const n = list.length;
+    const kinds = (k) => ({ isMoon: k === 'moon', isNews: k === 'news', isAd: k === 'ad', isPlay: k === 'play', isFix: k === 'fix', isTease: k === 'tease', isObj: k === 'obj', gLines: k === 'news' || k === 'fix', gBlock: k === 'ad' || k === 'tease' || k === 'obj', gGrid: k === 'play' });
+    const epOf = (c) => s.eps[c.id] || 0;
+    const here = list[s.camp]; const ep = epOf(here); const last = here.vistas.length - 1;
+    const move = s.dragging ? 'none' : 'transform 480ms ' + spring;
+    const mark = (m, color) => ({ r: m === 'o' ? '50%' : '8px', bd: m === 'o' ? '6px solid ' + color : '0 solid transparent', bg: m === 'x' ? color : 'transparent' });
+    const demo = ['o', '', 'x', '', 'o', '', 'x', '', 'o'];
+    const cards = [];
+    list.forEach((c, ci) => c.vistas.forEach((vi, ei) => {
+      const x = (ci - s.camp) * SX + s.dx; const y = (ei - epOf(c)) * SY + (ci === s.camp ? s.dy : 0);
+      const on = ci === s.camp && ei === ep;
+      const scale = (1 - Math.min(Math.abs(x) / SX, 1) * 0.1 - Math.min(Math.abs(y) / SY, 1) * 0.08) * (on && !s.playing && !s.dragging ? 0.96 : 1);
+      const run = on && !s.dragging;
+      cards.push({ ...vi, ...kinds(vi.kind), camp: c.camp, ground: c.ground, ink: c.ink, a: c.a,
+        tf: 'translate(' + x + 'px,' + y + 'px) scale(' + scale.toFixed(4) + ')', tr: move,
+        anim: run && vi.kind === 'moon' ? 'moon' : 'none', animRow: run ? 'rowIn' : 'none', animBob: run ? 'bob' : 'none', animPop: run ? 'pop' : 'none',
+        play: s.playing && s.cur < 0.02 && !s.add && !s.openOn ? 'running' : 'paused',
+        cls: run ? 'run' : '', a2: c.a2, a3: c.a3, next: (vi.fx || [])[0], later: (vi.fx || []).slice(1), all: vi.fx || [], teasers: (vi.teasers || []).map((t, k) => ({ ...t, op: k === 0 ? 1 : 0, d: (k * 4) + 's' })), r0: (vi.rows || [])[0], r1: (vi.rows || [])[1], r2: (vi.rows || [])[2], c0: (vi.caps || [])[0], c1: (vi.caps || [])[1], c2: (vi.caps || [])[2],
+        cells: demo.map((m, k) => ({ ...mark(m, m === 'o' ? c.a : '#ededed'), d: (k * 0.35).toFixed(2) + 's' })),
+        linkDown: () => { this.armed = vi.link || null; } });
+    }));
+    const f = s.camp - s.dx / SX;
+    const disks = list.map((c, i) => {
+      const dist = Math.abs(i - f);
+      return { ...kinds(c.vistas[0].kind), camp: c.camp, ground: c.ground, a: c.a,
+        op: Math.max(0.4, 1 - 0.2 * dist).toFixed(2),
+        ring: dist < 0.5 ? '0 0 0 2px ' + v.surf + ', 0 0 0 4px ' + v.fg : 'inset 0 0 0 1px rgba(255,255,255,0.12)',
+        ringOff: s.auto && s.mode === 0 && ep === last && i === (s.camp < n - 1 ? s.camp + 1 : 0) && n > 1 ? (157.1 * (1 - Math.max(0, (s.t - (dur - 3)) / 3))).toFixed(1) : '157.1' };
+    });
+    const segs = here.vistas.map((_, i) => { const on = i === ep; const open = on && !s.playing; return { w: open ? '120px' : on ? '16px' : '4px', bg: on && !open ? v.fg : v.off, op: open ? 1 : 0, tf: 'scaleX(' + (s.t / dur).toFixed(4) + ')' }; });
+    const key = here.id + '-' + ep; const vista = here.vistas[ep];
+    const cur = { campLine: here.ad ? here.camp + ' · 광고' : here.camp, title: vista.title, liked: !!s.liked[key], saved: !!s.saved[key] };
+    const camps = this.camps.map((c) => {
+      const sub = s.subs.includes(c.id);
+      return { ...kinds(c.vistas[0].kind), camp: c.camp, title: c.vistas[0].short, ground: c.ground, a: c.a, sub,
+        markBg: sub ? v.acc : 'rgba(15,15,16,0.6)', markFg: sub ? '#141415' : '#ededed', markTf: sub ? 'scale(1.08)' : 'scale(1)', markPath: sub ? 'M6 12.5l4 4 8-9' : 'M12 6v12M6 12h12',
+        flip: () => { if (sub && s.subs.length < 2) return; const subs = sub ? s.subs.filter((x) => x !== c.id) : [...s.subs, c.id]; this.setState({ subs, camp: Math.max(0, subs.indexOf(here.id)), dx: 0, dy: 0 }); } };
+    });
+    const sw = (on, label, flip) => ({ label, on, track: on ? v.acc : v.off, knob: on ? v.knob : (dark ? '#a1a1a6' : '#ffffff'), knobTf: on ? 'translateX(20px)' : 'translateX(0px)', flip });
+    const curTr = s.curDrag ? 'none' : 'transform 460ms ' + spring + ', border-radius 300ms cubic-bezier(0.22,1,0.36,1)';
+    const band = (d, atStart, atEnd) => ((d > 0 && atStart) || (d < 0 && atEnd) ? d * 0.3 : d);
+    const scaleOf = (e, w) => w / Math.max(e.currentTarget.getBoundingClientRect().width, 1);
+    const chip = s.chip;
+    return {
+      v, cards, disks, segs, cur, camps, rowDir: 'row',
+      railTf: 'translateX(' + (-f * SLOT).toFixed(1) + 'px)', railTr: s.dragging ? 'none' : 'transform 480ms ' + spring,
+      marq: vista.title.length > 12 ? (s.serial % 2 ? 'marqA' : 'marqB') + ' 6s cubic-bezier(0.45,0,0.55,1) 1.2s 2 alternate both' : 'none',
+      feedShown: s.mode === 0, discoverShown: s.mode === 1,
+      modes: ['For Me', '발견'].map((label, i) => ({ label, on: s.mode === i, bg: s.mode === i ? v.fg : 'transparent', fg: s.mode === i ? v.bg : v.fg2, pick: () => this.setState({ mode: i }) })),
+      switches: [
+        sw(s.auto, '다음 편 이어 보기', () => this.setState({ auto: !s.auto })),
+        sw(dark, '어두운 화면', () => this.setState({ dark: !dark }))
+      ],
+      keptCount: s.kept, dotOp: s.kept > 0 ? 1 : 0,
+      chipOp: chip ? 1 : 0, chipIn: chip ? 'scale(1)' : 'scale(0.8)',
+      chipTf: chip ? 'translate(' + Math.max(84, Math.min(285, chip.x)) + 'px,' + Math.max(8, chip.y - 72) + 'px) translateX(-50%)' : 'translate(184px,200px) translateX(-50%)',
+      chipBg: chip && chip.held ? v.acc : '#ededed', chipFill: chip && chip.held ? '#141415' : 'none', chipText: chip ? chip.domain : '',
+      chipPath: chip && chip.held ? 'M6.5 4h11v16.5L12 16.3l-5.5 4.2z' : 'M7 17L17 7M9 7h8v8',
+      openOn: s.openOn, openTf: s.openOn ? 'translateY(0px)' : 'translateY(820px)',
+      sheet: { domain: s.sheet.domain, isWeb: s.sheet.kind === 'web', isPlay: s.sheet.kind === 'play', isObj: s.sheet.kind === 'obj' },
+      cube: this.camps[7], cubeTf: 'rotateX(' + s.rx.toFixed(1) + 'deg) rotateY(' + s.ry.toFixed(1) + 'deg)',
+      xd: (e) => { e.currentTarget.setPointerCapture(e.pointerId); cancelAnimationFrame(this.raf); this.x = { x: e.clientX, y: e.clientY, rx: s.rx, ry: s.ry, lx: e.clientX, lt: Date.now(), v: 0, face: Math.round(s.ry / 90) }; },
+      xm: (e) => {
+        const x = this.x; if (!x) return; const now = Date.now();
+        const ry = x.ry + (e.clientX - x.x) * 0.6; const rx = Math.max(-80, Math.min(80, x.rx - (e.clientY - x.y) * 0.6));
+        x.v = ((e.clientX - x.lx) * 0.6) / Math.max(now - x.lt, 1) * 16; x.lx = e.clientX; x.lt = now;
+        const face = Math.round(ry / 90); x.face = face;
+        this.setState({ rx, ry });
+      },
+      xu: () => {
+        const x = this.x; this.x = null; if (!x) return; let v = x.v; let face = x.face;
+        const step = () => { v *= 0.95; if (Math.abs(v) < 0.05) return; const ry = this.state.ry + v; const f2 = Math.round(ry / 90); this.setState({ ry }); this.raf = requestAnimationFrame(step); };
+        this.raf = requestAnimationFrame(step);
+      },
+      closeSheet: () => this.setState({ openOn: false }),
+      board: s.g.map((m, i) => ({ ...mark(m, m === 'o' ? v.acc : v.fg), name: (i + 1) + '번 칸', cell: s.win && s.win.includes(i) ? v.off : v.raised, tf: m ? 'scale(1)' : 'scale(0)', tap: () => this.move(i) })),
+      resetGame: () => { this.busy = false; this.setState({ g: Array(9).fill(''), win: null }); },
+      sheetTf: 'translateY(' + ((s.cur - 1) * 480) + 'px)',
+      appTf: s.openOn ? 'translateY(20px) scale(0.92)' : 'translateY(' + (s.cur * this.CH) + 'px) scale(' + (1 - 0.06 * s.cur).toFixed(4) + ')',
+      appRadius: s.openOn ? '40px' : (Math.min(s.cur * 4, 1) * 40) + 'px',
+      curTr, curShown: s.cur > 0.02, scrimOp: (0.4 * s.cur).toFixed(3),
+      addScrim: s.add, addTf: s.add ? 'translateY(0px)' : 'translateY(260px)',
+      openAdd: () => this.setState({ add: true }), closeAdd: () => this.setState({ add: false }),
+      makeClaude: () => this.setState({ add: false, openOn: true, sheet: { kind: 'web', domain: 'claude.ai · @campsite' } }),
+      makeGpt: () => this.setState({ add: false, openOn: true, sheet: { kind: 'web', domain: 'chatgpt.com · @campsite' } }),
+      discOp: s.playing ? 0 : 1, discTf: s.playing ? 'scale(0.8)' : 'scale(1)',
+      heartFill: cur.liked ? v.acc : 'none', heartStroke: cur.liked ? v.acc : v.fg, heartTf: cur.liked ? 'scale(1.16)' : 'scale(1)',
+      saveFill: cur.saved ? v.fg : 'none', saveTf: cur.saved ? 'scale(1.16)' : 'scale(1)',
+      like: () => this.setState({ liked: { ...s.liked, [key]: !s.liked[key] } }),
+      save: () => this.setState({ saved: { ...s.saved, [key]: !s.saved[key] } }),
+      openCurtain: () => this.setState({ cur: 1, curDrag: false }),
+      closeCurtain: () => this.setState({ cur: 0, curDrag: false }),
+      pd: (e) => {
+        e.currentTarget.setPointerCapture(e.pointerId); const r = e.currentTarget.getBoundingClientRect(); const k = 369 / Math.max(r.width, 1);
+        const p = { x: e.clientX, y: e.clientY, at: Date.now(), k, axis: null, link: this.armed, held: false }; this.armed = null; this.p = p;
+        if (!p.link) return;
+        const chip0 = { x: (e.clientX - r.left) * k, y: (e.clientY - r.top) * k, domain: p.link.domain, held: false };
+        this.setState({ chip: chip0 });
+        p.timer = setTimeout(() => { if (this.p !== p || p.axis) return; p.held = true; this.setState({ chip: { ...chip0, held: true }, kept: this.state.kept + 1 }); }, 500);
+      },
+      pm: (e) => {
+        const p = this.p; if (!p) return; const dx = (e.clientX - p.x) * p.k, dy = (e.clientY - p.y) * p.k;
+        if (!p.axis) { if (Math.max(Math.abs(dx), Math.abs(dy)) < 8) return; p.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; clearTimeout(p.timer); }
+        if (p.axis === 'x') this.setState({ dx: band(dx, s.camp === 0, s.camp === n - 1), dy: 0, dragging: true, chip: null });
+        else this.setState({ dy: band(dy, ep === 0, ep === last), dx: 0, dragging: true, chip: null });
+      },
+      pu: (e) => {
+        const p = this.p; this.p = null; if (!p) return; clearTimeout(p.timer);
+        if (!p.axis) {
+          if (!p.link) { this.setState({ playing: !this.state.playing }); return; }
+          if (p.held) { setTimeout(() => this.setState({ chip: null }), 500); return; }
+          this.busy = false; this.setState({ chip: null, openOn: true, sheet: p.link, g: Array(9).fill(''), win: null }); return;
+        }
+        const d = (p.axis === 'x' ? e.clientX - p.x : e.clientY - p.y) * p.k; const vel = d / Math.max(Date.now() - p.at, 1);
+        const span = p.axis === 'x' ? SX : SY; const go = Math.abs(d) > span * 0.2 || (Math.abs(vel) > 0.5 && Math.abs(d) > 24);
+        const step = go ? (d < 0 ? 1 : -1) : 0;
+        if (p.axis === 'x') this.setCamp(Math.max(0, Math.min(n - 1, s.camp + step)));
+        else { const to = Math.max(0, Math.min(last, ep + step)); if (to === ep) this.setState({ dx: 0, dy: 0, dragging: false }); else this.setEp(to); }
+      },
+      rd: (e) => { e.currentTarget.setPointerCapture(e.pointerId); const r = e.currentTarget.getBoundingClientRect(); this.q = { x: e.clientX, at: Date.now(), k: 293 / Math.max(r.width, 1), mid: r.left + r.width / 2, moved: false }; },
+      rm: (e) => {
+        const q = this.q; if (!q) return; const d = (e.clientX - q.x) * q.k;
+        if (!q.moved && Math.abs(d) < 6) return; q.moved = true;
+        const to = Math.max(-0.3, Math.min(n - 0.7, s.camp - d / SLOT));
+        this.setState({ dx: (s.camp - to) * SX, dy: 0, dragging: true });
+      },
+      ru: (e) => {
+        const q = this.q; this.q = null; if (!q) return; const d = (e.clientX - q.x) * q.k;
+        const to = q.moved ? s.camp - (d + (d / Math.max(Date.now() - q.at, 1)) * 160) / SLOT : s.camp + ((e.clientX - q.mid) * q.k) / SLOT;
+        if (s.mode !== 0) this.setState({ mode: 0 });
+        this.setCamp(Math.max(0, Math.min(n - 1, Math.round(to))));
+      },
+      hd: (e) => { this.h = { y: e.clientY, cap: false, k: scaleOf(e, 393) }; },
+      hm: (e) => {
+        if (!this.h) return; const dy = (e.clientY - this.h.y) * this.h.k;
+        if (!this.h.cap) { if (dy < 8) return; this.h.cap = true; e.currentTarget.setPointerCapture(e.pointerId); }
+        this.setState({ cur: Math.max(0, Math.min(1.04, dy / this.CH)), curDrag: true });
+      },
+      hu: () => { const h = this.h; this.h = null; if (!h || !h.cap) return; this.setState({ cur: this.state.cur > 0.22 ? 1 : 0, curDrag: false }); },
+      od: (e) => { e.currentTarget.setPointerCapture(e.pointerId); this.o = { y: e.clientY, moved: false, k: scaleOf(e, 393) }; },
+      om: (e) => {
+        if (!this.o) return; const dy = (e.clientY - this.o.y) * this.o.k;
+        if (!this.o.moved && Math.abs(dy) < 8) return;
+        this.o.moved = true; this.setState({ cur: Math.max(0, Math.min(1.04, 1 + dy / this.CH)), curDrag: true });
+      },
+      ou: () => { const o = this.o; this.o = null; if (!o) return; this.setState({ cur: o.moved && this.state.cur > 0.8 ? 1 : 0, curDrag: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
